@@ -1,14 +1,14 @@
 var Layout = function () {
-    
+
     // detect mobile device
     var isMobileDevice = function() {
         return  ((
-            navigator.userAgent.match(/Android/i) ||
-            navigator.userAgent.match(/BlackBerry/i) ||
-            navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
-            navigator.userAgent.match(/Opera Mini/i) ||
-            navigator.userAgent.match(/IEMobile/i)
-        ) ? true : false);
+                  navigator.userAgent.match(/Android/i) ||
+                  navigator.userAgent.match(/BlackBerry/i) ||
+                  navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
+                  navigator.userAgent.match(/Opera Mini/i) ||
+                  navigator.userAgent.match(/IEMobile/i)
+                  ) ? true : false);
     }
 
     // handle on page scroll
@@ -81,46 +81,46 @@ var Layout = function () {
     // handle group element heights
     var handleHeight = function() {
        $('[data-auto-height]').each(function() {
-            var parent = $(this);
-            var items = $('[data-height]', parent);
-            var height = 0;
-            var mode = parent.attr('data-mode');
-            var offset = parseInt(parent.attr('data-offset') ? parent.attr('data-offset') : 0);
+        var parent = $(this);
+        var items = $('[data-height]', parent);
+        var height = 0;
+        var mode = parent.attr('data-mode');
+        var offset = parseInt(parent.attr('data-offset') ? parent.attr('data-offset') : 0);
 
-            items.each(function() {
-                if ($(this).attr('data-height') == "height") {
-                    $(this).css('height', '');
-                } else {
-                    $(this).css('min-height', '');
-                }
-
-                var height_ = (mode == 'base-height' ? $(this).outerHeight() : $(this).outerHeight(true));
-                if (height_ > height) {
-                    height = height_;
-                }
-            });
-
-            height = height + offset;
-
-            items.each(function() {
-                if ($(this).attr('data-height') == "height") {
-                    $(this).css('height', height);
-                } else {
-                    $(this).css('min-height', height);
-                }
-            });
-
-            if(parent.attr('data-related')) {
-                $(parent.attr('data-related')).css('height', parent.height());
+        items.each(function() {
+            if ($(this).attr('data-height') == "height") {
+                $(this).css('height', '');
+            } else {
+                $(this).css('min-height', '');
             }
-       });
-    }
+
+            var height_ = (mode == 'base-height' ? $(this).outerHeight() : $(this).outerHeight(true));
+            if (height_ > height) {
+                height = height_;
+            }
+        });
+
+        height = height + offset;
+
+        items.each(function() {
+            if ($(this).attr('data-height') == "height") {
+                $(this).css('height', height);
+            } else {
+                $(this).css('min-height', height);
+            }
+        });
+
+        if(parent.attr('data-related')) {
+            $(parent.attr('data-related')).css('height', parent.height());
+        }
+    });
+   }
 
     // Handle Work Popup
     var handleWorkPopup = function() {
         var overlay = $('.work-popup-overlay'),
-            close = $('.work-popup-close'),
-            trigger = $('.work-popup-trigger');
+        close = $('.work-popup-close'),
+        trigger = $('.work-popup-trigger');
 
         trigger.on('click', function() {
             $(this).find('.work-popup-overlay').removeClass('work-popup-overlay-show');
@@ -151,7 +151,7 @@ var Layout = function () {
         // To get the correct viewport width based on  http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
         getViewPort: function() {
             var e = window,
-                a = 'inner';
+            a = 'inner';
             if (!('innerWidth' in window)) {
                 a = 'client';
                 e = document.documentElement || document.body;
@@ -167,4 +167,26 @@ var Layout = function () {
 
 $(document).ready(function() {
     Layout.init();
+
+    $('#js-portfolio').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        asNavFor: '#js-portfolio-small' 
+    });
+
+    $('#js-portfolio-small').slick({
+        slidesToShow: 3,
+        asNavFor: '#js-portfolio',
+        focusOnSelect: true
+    });
+
+    $('#js-portfolio-reviews').slick({
+     slidesToShow: 2,
+     slidesToScroll: 2,
+     adaptiveHeight: true,
+     dots: true 
+     });
+
+    let stHeight = $('#js-portfolio-reviews .slick-track').height();
+    $('#js-portfolio-reviews .slick-slide').css('height',stHeight + 'px' );
 });
